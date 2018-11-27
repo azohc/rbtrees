@@ -1,4 +1,8 @@
 {
+    "files.autoSave": "onFocusChange",
+    "zenMode.hideTabs": false,
+    "zenMode.hideActivityBar": false,
+    "explorer.sortOrder": "filesFirst",
     "files.associations": {
         "*.tcc": "cpp",
         "cctype": "cpp",
