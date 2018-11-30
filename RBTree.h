@@ -1,6 +1,11 @@
 #ifndef rbtree_h
 #define rbtree_h
 
+/*
+Implementar o Java o en C++ un arbol roji-negro escorado a la izquierda con las operaciones
+de buscar, insertar y borrar una clave.
+*/
+
 #include <cstddef>
 
 const bool RED = true;
@@ -27,8 +32,7 @@ public:
     bool contains(const K key) const {
         if(_root == NULL)   return false;
         if(_root->_key == key)
-            return true;
-        return contains() //TODO make function that receives a node and returns a RBTree 
+            return true;    //TODO think about how to call contains recursively through nodes
     }
         
    
@@ -59,6 +63,10 @@ protected:
 
     Node *_root;
 
+     //Constructor to make a red-black tree from a node
+    RBTree(Node *root){
+        _root = root;
+    }
 
 private:
     //Free all the children nodes that branch from root    

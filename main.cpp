@@ -3,9 +3,8 @@
 
 int main(){
 
-    RBTree<int, char> t = new RBTree(3, 'x');
-
-    std::cout << 
+    RBTree<int, char> t = RBTree<int, char>(3, 'x');
+    
     
     system("PAUSE");
     return 0;
