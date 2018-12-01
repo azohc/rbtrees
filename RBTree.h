@@ -28,12 +28,25 @@ public:
         _root = NULL;
     }
 
-    //Observer function that checks if a given key exists in the tree
-    bool contains(const K key) const {
-        if(_root == NULL)   return false;
-        if(_root->_key == key)
-            return true;    //TODO think about how to call contains recursively through nodes
-    }
+    
+    //READ BOOK PAGE 308
+    //Insert an element into the tree
+    
+
+
+    //Delete
+
+
+    //Get
+    
+
+    //Maybe get iterator to key
+    
+    
+    
+    
+    //Maybe TODO: Observer function that checks if a given key exists in the tree
+    
         
    
     
@@ -48,7 +61,7 @@ protected:
             _left = NULL; _right = NULL;
         }
 
-        bool isRed(Node *n){
+        bool isRed(Node *n) {
             if(n == NULL)
                 return false;
             return n->_color;
