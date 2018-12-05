@@ -6,7 +6,6 @@ Implementar o Java o en C++ un arbol roji-negro escorado a la izquierda con las 
 de buscar, insertar y borrar una clave.
 */
 
-#include <cstddef>
 
 const bool RED = true;
 const bool BLACK = false;
@@ -15,17 +14,27 @@ template <class K, class V>
 class RBTree {
 public:
     //Constructor for an empty tree
-    RBTree() : _root(NULL) {} 
+    RBTree() {
+        _NIL = new Node();
+        _root = _NIL;
+        _root->_parent = _NIL;
+        _root->_left = _NIL;
+        _root->_right = _NIL;
+    } 
 
     //Constructor for a single-node tree
     RBTree(const K key, const V value) {
-        _root = new Node(key, value, BLACK);
+        _NIL = new Node();
+        _root = new Node(key, value);
+        _root->_parent = _NIL;
+        _root->_left = _NIL;
+        _root->_right = _NIL;
     }
 
     //Destructor
     ~RBTree() {
         free(_root);
-        _root = NULL;
+        _root = nullptr;
     }
 
     
@@ -33,48 +42,50 @@ public:
     //Insert an element into the tree
     
 
-
     //Delete
 
 
     //Get
     
 
+
+
+
     //Maybe get iterator to key
     
-    
-    
-    
     //Maybe TODO: Observer function that checks if a given key exists in the tree
-    
-        
-   
+
     
 protected:
     class Node {
     public:
-        //TODO maybe remove?
-        //Node() : _left(NULL), _right(NULL), _color(BLACK), _key(NULL), _value(NULL) {}
+        Node() {
+            _color = BLACK;
+        }
 
-        Node(K key, V value, bool color) {
-            _key = key; _value = value; _color = color;
-            _left = NULL; _right = NULL;
+        Node(K key, V value) {
+            _key = key;
+            _value = value;
+            _color = BLACK;
         }
 
         bool isRed(Node *n) {
-            if(n == NULL)
+            if(n == _NIL)
                 return false;
             return n->_color;
         }
 
+        bool _color;
         K _key;
         V _value;
-        bool _color;
         Node *_left;
         Node *_right;
+        Node *_parent;
     };
 
     Node *_root;
+    Node *_NIL;
+
 
      //Constructor to make a red-black tree from a node
     RBTree(Node *root){
@@ -84,7 +95,7 @@ protected:
 private:
     //Free all the children nodes that branch from root    
     void free(Node *root) {
-        if(root != NULL) {
+        if(root != _NIL) {
             free(_root->_left);
             free(_root->_right);
             delete _root;
