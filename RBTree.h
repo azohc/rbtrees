@@ -138,8 +138,6 @@ protected:
 
 private:    
 
-
-
     void insert_fixup(Node* z){
         while (isRed(z->_parent)) {
             if (z->_parent == z->_parent->_parent->_left) {
@@ -150,12 +148,15 @@ private:
                     z->_parent->_parent->_color = RED;
                     z = z->_parent->_parent;
                 }
-                else if (z == z->_parent->_right) {
-                    z = z->_parent;
-                    left_rotate(z);
+                else {
+                    if (z == z->_parent->_right) {
+                        z = z->_parent;
+                        left_rotate(z);
+                    }
+                    z->_parent->_color = BLACK;
+                    z->_parent->_parent->_color = RED;
+                    right_rotate(z->_parent->_parent);
                 }
-                z->_parent->_color = BLACK;
-                z->_parent->_parent->_color = RED;
             }
             else {
                 Node *y = z->_parent->_parent->_left;
@@ -165,12 +166,15 @@ private:
                     z->_parent->_parent->_color = RED;
                     z = z->_parent->_parent;
                 }
-                else if (z == z->_parent->_left) {
-                    z = z->_parent;
-                    left_rotate(z);
+                else {
+                    if (z == z->_parent->_left) {
+                        z = z->_parent;
+                        right_rotate(z);
+                    }
+                    z->_parent->_color = BLACK;
+                    z->_parent->_parent->_color = RED;
+                    left_rotate(z->_parent->_parent);
                 }
-                z->_parent->_color = BLACK;
-                z->_parent->_parent->_color = RED;
             }
         }
     }
