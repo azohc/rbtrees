@@ -2,8 +2,6 @@
 #define rbtree_h
 
 /*
-Implementar o Java o en C++ un arbol roji-negro escorado a la izquierda con las operaciones
-de buscar, insertar y borrar una clave.
 
 RBTree Properties:
 1. Every node is either red or black.
@@ -12,10 +10,7 @@ RBTree Properties:
 4. If a node is red, then both its children are black.
 5. For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.
 
-
 https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
-https://github.com/azohc/dom/blob/master/ADT/Arbin.h
-
 
 */
 
@@ -52,16 +47,19 @@ public:
     }
 
     
-    //READ BOOK PAGE 308
     //Insert an element into the tree
     void insert(K key, V value){
-        Node* x = _root;
-        Node* y = _NIL;
+        // Construct new node from key-value pair
         Node* z = new Node(key, value);
         z->_left = _NIL;
         z->_right = _NIL;
-
-        
+        z->_color = RED;    
+                    
+        Node* x = _root;
+        Node* y = _NIL;
+        // y is always x's parent.
+        // x takes values of children until NIL sentinel is reached.
+        // The new node will take the position in the tree of this sentinel (x). 
         while(x != _NIL){
             y = x;
             if(z->_key < x->_key)
@@ -69,17 +67,15 @@ public:
             else
                 x = x->_right;
         }
-        
+        // y (x's parent) is z's parent
         z->_parent = y;
         
-        if(y == _NIL)
+        if(y == _NIL)                   // y being NIL means z is new root
             _root = z;
-        else if (z->_key < y->_key)
-            y->_left = z;
+        else if (z->_key < y->_key)     // Connecting z to y by comparing keys
+            y->_left = z;   
         else
             y->_right = z;
-
-        z->_color = RED;
 
         insert_fixup(z);        
     }
@@ -100,10 +96,10 @@ public:
     }
     
 
-    //Maybe get iterator to key
-    
-    //Maybe TODO: Observer function that checks if a given key exists in the tree
-
+    /*
+    Maybe make get iterator to key
+    Maybe make observer function that checks if a given key exists in the tree
+    */
     
 protected:
     class Node {
@@ -138,7 +134,7 @@ protected:
 
 private:    
 
-    void insert_fixup(Node* z){
+    void insert_fixup(Node* z) {
         while (isRed(z->_parent)) {
             if (z->_parent == z->_parent->_parent->_left) {
                 Node *y = z->_parent->_parent->_right;
@@ -179,7 +175,7 @@ private:
         }
     }
 
-    void left_rotate(Node* x){
+    void left_rotate(Node* x) {
         Node *y = x->_right;
         x->_right = y->_left;
 
@@ -199,7 +195,7 @@ private:
         x->_parent = y;
     }
 
-    void right_rotate(Node* x){
+    void right_rotate(Node* x) {
         Node *y = x->_left;
         x->_left = y->_right;
 
@@ -219,15 +215,15 @@ private:
         x->_parent = y;
     }
 
-    bool isRed(Node *n) {
-        if(n == _NIL)
+    bool isRed(const Node *n) const {
+        if (n == _NIL)
             return false;
         return n->_color;
     }
 
 
-    void gen_list_inorder(std::list<V> &l, Node* r){
-        if(r == _NIL)
+    void gen_list_inorder(std::list<V> &l, const Node* r) const {
+        if (r == _NIL)
             return;
         gen_list_inorder(l, r->_left);
         l.push_back(r->_value);
