@@ -118,12 +118,6 @@ protected:
             _color = BLACK;
         }
 
-        bool isRed(Node *n) {
-            if(n == _NIL)
-                return false;
-            return n->_color;
-        }
-
         bool _color;
         K _key;
         V _value;
@@ -144,9 +138,89 @@ protected:
 
 private:    
 
+
+
     void insert_fixup(Node* z){
-        
+        while (isRed(z->_parent)) {
+            if (z->_parent == z->_parent->_parent->_left) {
+                Node *y = z->_parent->_parent->_right;
+                if (isRed(y)) { 
+                    z->_parent->_color = BLACK;
+                    y->_color = BLACK;
+                    z->_parent->_parent->_color = RED;
+                    z = z->_parent->_parent;
+                }
+                else if (z == z->_parent->_right) {
+                    z = z->_parent;
+                    left_rotate(z);
+                }
+                z->_parent->_color = BLACK;
+                z->_parent->_parent->_color = RED;
+            }
+            else {
+                Node *y = z->_parent->_parent->_left;
+                if (isRed(y)) { 
+                    z->_parent->_color = BLACK;
+                    y->_color = BLACK;
+                    z->_parent->_parent->_color = RED;
+                    z = z->_parent->_parent;
+                }
+                else if (z == z->_parent->_left) {
+                    z = z->_parent;
+                    left_rotate(z);
+                }
+                z->_parent->_color = BLACK;
+                z->_parent->_parent->_color = RED;
+            }
+        }
     }
+
+    void left_rotate(Node* x){
+        Node *y = x->_right;
+        x->_right = y->_left;
+
+        if(y->_left != _NIL)
+            y->_left->_parent = x;
+        
+        y->_parent = x->_parent;
+
+        if(x->_parent == _NIL)
+            _root = y;
+        else if(x == x->_parent->_left)
+            x->_parent->_left = y;
+        else
+            x->_parent->_right = y;
+        
+        y->_left = x;
+        x->_parent = y;
+    }
+
+    void right_rotate(Node* x){
+        Node *y = x->_left;
+        x->_left = y->_right;
+
+        if(y->_right != _NIL)
+            y->_right->_parent = x;
+        
+        y->_parent = x->_parent;
+
+        if(x->_parent == _NIL)
+            _root = y;
+        else if(x == x->_parent->_right)
+            x->_parent->_right = y;
+        else
+            x->_parent->_left = y;
+        
+        y->_right = x;
+        x->_parent = y;
+    }
+
+    bool isRed(Node *n) {
+        if(n == _NIL)
+            return false;
+        return n->_color;
+    }
+
 
     void gen_list_inorder(std::list<V> &l, Node* r){
         if(r == _NIL)

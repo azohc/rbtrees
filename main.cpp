@@ -10,15 +10,19 @@ using std::endl;
 
 int main(){
 
-    RBTree<int, int> t = RBTree<int, int>(33, 33);
+    RBTree<int, int> t = RBTree<int, int>();
     
 
-    for(int i = 0; i < 10; i++){
-        if(i == 7 || i == 8 || i == 9)
-            t.insert(6*i, 6*i);
-        else
-            t.insert(-2*i, -2*i);
-    }
+    t.insert(1,1);
+    t.insert(2,2);
+    t.insert(4,4);
+    t.insert(5,5);
+    t.insert(7,7);
+    t.insert(8,8);
+    t.insert(11,11);
+    t.insert(14,14);
+    t.insert(15,15);
+    
 
 
     list<int> l = t.inorder_treewalk();
@@ -28,6 +32,6 @@ int main(){
 
     cout << endl;   
     
-    system("PAUSE");
+    //system("PAUSE");
     return 0;
 }
